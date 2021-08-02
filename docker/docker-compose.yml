@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+
+  java:
+    build:
+      context: ./java
+    depends_on:
+      - db 
+    volumes:
+      - ./dist:/jar
+    ports:
+      - "10000:10000"
+    networks: 
+      - internal
+  nginx:
+    build:
+      context: ./nginx
+    volumes:
+      - ../vue/chat/dist:/var/www
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/sites/:/etc/nginx/sites-available
+      - ./nginx/conf.d/:/etc/nginx/conf.d
+      - ./logs:/var/log
+    ports:
+      - "80:80"
+      - "443:443"
+    networks: 
+      - internal
+networks: 
+  internal:
+
+
+
+
+
